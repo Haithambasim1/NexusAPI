@@ -1,0 +1,584 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional API Services Documentation</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary-color: #f3f4f6;
+            --text-color: #1f2937;
+            --light-text: #6b7280;
+            --code-bg: #f9fafb;
+            --border-color: #e5e7eb;
+            --header-height: 60px;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            color: var(--text-color);
+            padding-top: var(--header-height);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            height: var(--header-height);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            background-color: white;
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .sidebar {
+            position: sticky;
+            top: calc(var(--header-height) + 20px);
+            height: calc(100vh - var(--header-height) - 40px);
+            overflow-y: auto;
+            padding-right: 15px;
+            padding-bottom: 100px;
+        }
+        
+        .sidebar-nav {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-nav a {
+            color: var(--light-text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: block;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            color: var(--primary-color);
+            background-color: var(--secondary-color);
+        }
+        
+        .sidebar-heading {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--light-text);
+            margin-top: 20px;
+            padding-left: 12px;
+        }
+        
+        .main-content {
+            padding-bottom: 100px;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        pre {
+            background-color: var(--code-bg);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+        
+        .endpoint {
+            background-color: var(--secondary-color);
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .endpoint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .method {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            width: 60px;
+            text-align: center;
+        }
+        
+        .method.get {
+            background-color: #22c55e;
+        }
+        
+        .method.post {
+            background-color: #3b82f6;
+        }
+        
+        .url-path {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            margin-left: 15px;
+            flex-grow: 1;
+            font-size: 16px;
+        }
+        
+        .parameter-table, .response-table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .parameter-table th, .response-table th {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+        }
+        
+        .parameter-table td, .response-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .parameter-type, .response-type {
+            color: #9ca3af;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 14px;
+        }
+        
+        .required {
+            display: inline-block;
+            color: #ef4444;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+        
+        .api-section {
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .api-section:first-child {
+            padding-top: 0;
+            margin-top: 0;
+            border-top: none;
+        }
+        
+        .response-example {
+            margin-top: 15px;
+        }
+        
+        .tab-content {
+            padding: 20px;
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 0 0 6px 6px;
+            border-top: none;
+        }
+        
+        .nav-tabs {
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-tabs .nav-link {
+            color: var(--light-text);
+            border: 1px solid transparent;
+        }
+        
+        .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            background-color: var(--code-bg);
+            border-color: var(--border-color) var(--border-color) var(--code-bg);
+        }
+        
+        .alert {
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .alert-info {
+            background-color: #eff6ff;
+            border: 1px solid #dbeafe;
+            color: #1e40af;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Professional API Services</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#introduction">Documentation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" target="_blank">GitHub</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="sidebar">
+                    <span class="sidebar-heading">Getting Started</span>
+                    <ul class="sidebar-nav">
+                        <li><a href="#introduction">Introduction</a></li>
+                        <li><a href="#authentication">Authentication</a></li>
+                        <li><a href="#rate-limiting">Rate Limiting</a></li>
+                        <li><a href="#error-handling">Error Handling</a></li>
+                    </ul>
+                    
+                    <span class="sidebar-heading">API Reference</span>
+                    <ul class="sidebar-nav">
+                        <li><a href="#email-validation">Email Validation</a></li>
+                        <li><a href="#company-information">Company Information</a></li>
+                        <li><a href="#sentiment-analysis">Sentiment Analysis</a></li>
+                    </ul>
+                    
+                    <span class="sidebar-heading">Resources</span>
+                    <ul class="sidebar-nav">
+                        <li><a href="#code-examples">Code Examples</a></li>
+                        <li><a href="#deployment">Deployment Guide</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="col-lg-9 main-content">
+                <section id="introduction">
+                    <h1>Professional API Services</h1>
+                    <p class="lead">A collection of production-ready API services built with Node.js and Express, designed to be deployed on RapidAPI.</p>
+                    
+                    <div class="alert alert-info">
+                        <strong>Note:</strong> This documentation is for the local development server. When deployed to RapidAPI, the base URL and authentication will change.
+                    </div>
+                    
+                    <p>Our APIs provide powerful, easy-to-use services for developers:</p>
+                    <ul>
+                        <li><strong>Email Validation API</strong> - Verify email addresses with comprehensive checks</li>
+                        <li><strong>Company Information API</strong> - Retrieve detailed company data based on domain name</li>
+                        <li><strong>Sentiment Analysis API</strong> - Analyze text content for emotional sentiment</li>
+                    </ul>
+                </section>
+                
+                <section id="authentication" class="api-section">
+                    <h2>Authentication</h2>
+                    <p>When deployed on RapidAPI, all API calls require RapidAPI authentication headers:</p>
+                    <pre><code>X-RapidAPI-Key: YOUR_RAPIDAPI_KEY
+X-RapidAPI-Host: your-api.p.rapidapi.com</code></pre>
+                    
+                    <p>During local development, authentication can be disabled by setting <code>NODE_ENV=development</code> in your .env file.</p>
+                </section>
+                
+                <section id="rate-limiting" class="api-section">
+                    <h2>Rate Limiting</h2>
+                    <p>To prevent abuse, our APIs implement rate limiting:</p>
+                    <ul>
+                        <li><strong>Standard tier:</strong> 100 requests per 15-minute window</li>
+                        <li><strong>Premium tier:</strong> 1000 requests per 15-minute window</li>
+                        <li><strong>Email validation:</strong> Maximum of 1000 checks per day (configurable)</li>
+                    </ul>
+                    <p>When rate limits are exceeded, the API will respond with a 429 status code.</p>
+                </section>
+                
+                <section id="error-handling" class="api-section">
+                    <h2>Error Handling</h2>
+                    <p>All endpoints follow a standard error response format:</p>
+                    <pre><code>{
+  "success": false,
+  "error": {
+    "message": "Error message description",
+    "code": "ERROR_CODE"
+  }
+}</code></pre>
+                    
+                    <p>Common error codes include:</p>
+                    <ul>
+                        <li><code>INVALID_PARAMETERS</code> - Missing or invalid request parameters</li>
+                        <li><code>UNAUTHORIZED</code> - Authentication failure</li>
+                        <li><code>RATE_LIMIT_EXCEEDED</code> - Too many requests</li>
+                        <li><code>SERVER_ERROR</code> - Internal server error</li>
+                    </ul>
+                </section>
+                
+                <section id="email-validation" class="api-section">
+                    <h2>Email Validation API</h2>
+                    <p>Provides comprehensive email address verification with multiple checks.</p>
+                    
+                    <div class="endpoint">
+                        <div class="endpoint-header">
+                            <span class="method get">GET</span>
+                            <span class="url-path">/api/email/validate</span>
+                        </div>
+                        
+                        <h4>Parameters</h4>
+                        <table class="parameter-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>email<span class="required">required</span></td>
+                                    <td><span class="parameter-type">string</span></td>
+                                    <td>The email address to validate</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <h4>Response</h4>
+                        <div class="response-example">
+                            <ul class="nav nav-tabs" id="emailTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="email-success-tab" data-bs-toggle="tab" data-bs-target="#email-success" type="button" role="tab" aria-controls="email-success" aria-selected="true">Success Response</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="email-error-tab" data-bs-toggle="tab" data-bs-target="#email-error" type="button" role="tab" aria-controls="email-error" aria-selected="false">Error Response</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="emailTabsContent">
+                                <div class="tab-pane fade show active" id="email-success" role="tabpanel" aria-labelledby="email-success-tab">
+<pre><code>{
+  "success": true,
+  "data": {
+    "email": "user@example.com",
+    "is_valid_format": true,
+    "is_deliverable": true,
+    "is_disposable": false,
+    "suggestion": null,
+    "mx_records": [
+      { "exchange": "mx1.example.com", "priority": 10 },
+      { "exchange": "mx2.example.com", "priority": 20 }
+    ],
+    "username": "user",
+    "domain": "example.com",
+    "score": 0.8,
+    "checks": {
+      "syntax": true,
+      "domain_exists": true,
+      "has_mx_records": true,
+      "role_account": false,
+      "disposable": false,
+      "free_provider": false
+    }
+  }
+}</code></pre>
+                                </div>
+                                <div class="tab-pane fade" id="email-error" role="tabpanel" aria-labelledby="email-error-tab">
+<pre><code>{
+  "success": false,
+  "error": {
+    "message": "Email parameter is required",
+    "code": "INVALID_PARAMETERS"
+  }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="company-information" class="api-section">
+                    <h2>Company Information API</h2>
+                    <p>Retrieves detailed company information based on domain name.</p>
+                    
+                    <div class="endpoint">
+                        <div class="endpoint-header">
+                            <span class="method get">GET</span>
+                            <span class="url-path">/api/company/info</span>
+                        </div>
+                        
+                        <h4>Parameters</h4>
+                        <table class="parameter-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>domain<span class="required">required</span></td>
+                                    <td><span class="parameter-type">string</span></td>
+                                    <td>The company domain name</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <h4>Response</h4>
+                        <div class="response-example">
+                            <ul class="nav nav-tabs" id="companyTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="company-success-tab" data-bs-toggle="tab" data-bs-target="#company-success" type="button" role="tab" aria-controls="company-success" aria-selected="true">Success Response</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="company-error-tab" data-bs-toggle="tab" data-bs-target="#company-error" type="button" role="tab" aria-controls="company-error" aria-selected="false">Error Response</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="companyTabsContent">
+                                <div class="tab-pane fade show active" id="company-success" role="tabpanel" aria-labelledby="company-success-tab">
+<pre><code>{
+  "success": true,
+  "data": {
+    "domain": "example.com",
+    "company_name": "Example Inc.",
+    "logo_url": "https://logo.clearbit.com/example.com",
+    "industry": "Technology",
+    "description": "A technology company focused on innovation.",
+    "founded": 2010,
+    "employees": 500,
+    "location": {
+      "country": "United States",
+      "city": "San Francisco",
+      "state": "CA"
+    },
+    "social_media": {
+      "twitter": "https://twitter.com/example",
+      "linkedin": "https://linkedin.com/company/example",
+      "facebook": "https://facebook.com/example"
+    }
+  }
+}</code></pre>
+                                </div>
+                                <div class="tab-pane fade" id="company-error" role="tabpanel" aria-labelledby="company-error-tab">
+<pre><code>{
+  "success": false,
+  "error": {
+    "message": "Domain parameter is required",
+    "code": "INVALID_PARAMETERS"
+  }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="sentiment-analysis" class="api-section">
+                    <h2>Sentiment Analysis API</h2>
+                    <p>Analyzes the sentiment of text content.</p>
+                    
+                    <div class="endpoint">
+                        <div class="endpoint-header">
+                            <span class="method post">POST</span>
+                            <span class="url-path">/api/ai/sentiment</span>
+                        </div>
+                        
+                        <h4>Request Body</h4>
+                        <pre><code>{
+  "text": "I really love this product, it's amazing!"
+}</code></pre>
+                        
+                        <h4>Response</h4>
+                        <div class="response-example">
+                            <ul class="nav nav-tabs" id="sentimentTabs" role="tablist">
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link active" id="sentiment-success-tab" data-bs-toggle="tab" data-bs-target="#sentiment-success" type="button" role="tab" aria-controls="sentiment-success" aria-selected="true">Success Response</button>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <button class="nav-link" id="sentiment-error-tab" data-bs-toggle="tab" data-bs-target="#sentiment-error" type="button" role="tab" aria-controls="sentiment-error" aria-selected="false">Error Response</button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="sentimentTabsContent">
+                                <div class="tab-pane fade show active" id="sentiment-success" role="tabpanel" aria-labelledby="sentiment-success-tab">
+<pre><code>{
+  "success": true,
+  "data": {
+    "text": "I really love this product, it is amazing!",
+    "sentiment": "positive",
+    "score": 0.85,
+    "confidence": 0.85,
+    "details": {
+      "positive_words": 2,
+      "negative_words": 0,
+      "total_words": 8
+    }
+  }
+}</code></pre>
+                                </div>
+                                <div class="tab-pane fade" id="sentiment-error" role="tabpanel" aria-labelledby="sentiment-error-tab">
+<pre><code>{
+  "success": false,
+  "error": {
+    "message": "Text parameter is required",
+    "code": "INVALID_PARAMETERS"
+  }
+}</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section id="code-examples" class="api-section">
+                    <h2>Code Examples</h2>
+                    <p>For detailed code examples in various programming languages, check out our <a href="/docs/code-examples">Code Examples documentation</a>.</p>
+                </section>
+                
+                <section id="deployment" class="api-section">
+                    <h2>Deployment Guide</h2>
+                    <p>For information on deploying your API to RapidAPI, see our <a href="/docs/deployment-guide">Deployment Guide</a>.</p>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Activate sidebar links based on scroll position
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.sidebar-nav a');
+            
+            window.addEventListener('scroll', function() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
