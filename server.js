@@ -39,6 +39,10 @@ app.use((err, req, res, next) => {
   });
 });
 
+app.get('/', (req, res) => {
+  res.json({ message: 'wellcome to nexus APi' });
+});
+
 // Handle 404 errors
 app.use((req, res) => {
   res.status(404).json({
