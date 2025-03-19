@@ -15,7 +15,11 @@ const PORT = process.env.PORT || 3000;
 
 // Apply middleware
 app.use(helmet());
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 app.use(express.json());
 
 // Mount API routes
